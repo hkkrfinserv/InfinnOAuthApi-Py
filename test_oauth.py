@@ -17,7 +17,7 @@ with open('cred.yml', 'r') as f:
     cred = yaml.load(f, Loader=yaml.FullLoader) or {}
 
 #credentials
-apikey_url = api.getOAuthURL(cred['oauth_url'],cred['clinet_id'])
+apikey_url = api.getOAuthURL(cred['oauth_url'],cred['client_id'])
 logging.info(apikey_url)
 
 subprocess.Popen(
@@ -41,7 +41,7 @@ auth_code = "your_auth_code_here"
 if auth_code == "your_auth_code_here":
     auth_code = input("Enter your auth code here: ")
 
-result = api.getAccessToken(auth_code, cred['Secret_Code'], cred['clinet_id'], cred['UID'])
+result = api.getAccessToken(auth_code, cred['Secret_Code'], cred['client_id'], cred['UID'])
 if result is not None:
     acc_tok, usrid, ref_tok, actid = result
     logging.info(f"""\nAccess token is : {acc_tok} \nRefresh token is : {ref_tok} \nUser ID token is : {usrid} \nAccount ID is : {actid} \n""")

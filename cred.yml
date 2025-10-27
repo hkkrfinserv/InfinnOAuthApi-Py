@@ -2,5 +2,5 @@ Access_token: d06b5cd07aa9d1abd2107d0ea4ea6cb2661af00b198a8a50c37b338defb96e7a #
 Account_ID: DEMO
 Secret_Code: 6xIeo1gBEZcjBrfA9Pb1ksae4jIKC7p9h1aRBLU6
 UID: DEMO
-clinet_id: CLIENT_ID
+client_id: CLIENT_ID
 oauth_url: https://api.kambala.com/NorenWeb/authorize/oauth
