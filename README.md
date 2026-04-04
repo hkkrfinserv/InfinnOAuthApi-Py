@@ -1256,9 +1256,9 @@ Position structure as follows:
 |Json Fields|Possible value|Description|
 | --- | --- | ---|
 | prd | C / M / H  | Product | 
-|exch|NFO, CDS, MCX ...|Exchange|
+|exch|NFO, BFO, MCX ...|Exchange|
 |instname|FUTSTK, FUTIDX, OPTSTK, FUTCUR...|Instrument name|
-|symname|USDINR, ACC, ABB,NIFTY.. |Symbol name|
+|symname|ACC, ABB,NIFTY.. |Symbol name|
 |exd|29-DEC-2022|DD-MMM-YYYY format|
 |optt|CE, PE|Option Type|
 |strprc|11900.00, 71.0025|Strike price|
