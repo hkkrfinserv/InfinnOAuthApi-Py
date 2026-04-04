@@ -244,7 +244,7 @@ Request Details :
 | --- | --- | --- | ---|
 |Handled in Python wrapper|uid*||Logged in User Id|
 |Handled in Python wrapper|actid*||Login users account ID|
-|exchange|exch*|NSE  / NFO / BSE / MCX|Exchange (Select from ‘exarr’ Array provided in User Details response)|
+|exchange|exch*|NSE  / NFO / BSE / BFO / MCX|Exchange (Select from ‘exarr’ Array provided in User Details response)|
 |tradingsymbol|tsym*||Unique id of contract on which order to be placed. (use url encoding to avoid special char error for symbols like M&M)|
 |quantity|qty*||Order Quantity |
 |price|prc*||Order Price|
@@ -631,8 +631,8 @@ Sample Success Output :
    {
        "stat": "Ok",
        "norenordno": "20121300065715",
-       "uid": "GURURAJ",
-       "actid": "GURURAJ",
+       "uid": "TEST05",
+       "actid": "TEST05",
        "exch": "NSE",
        "prctyp": "LMT",
        "ret": "DAY",
@@ -658,8 +658,8 @@ Sample Success Output :
    {
        "stat": "Ok",
        "norenordno": "20121300065716",
-       "uid": "GURURAJ",
-       "actid": "GURURAJ",
+       "uid": "TEST05",
+       "actid": "TEST05",
        "exch": "NSE",
        "prctyp": "LMT",
        "ret": "DAY",
