@@ -3,4 +3,4 @@ Account_ID: DEMO
 Secret_Code: 6xIeo1gBEZcjBrfA9Pb1ksae4jIKC7p9h1aRBLU6
 UID: DEMO
 client_id: CLIENT_ID
-oauth_url: https://api.kambala.com/NorenWeb/authorize/oauth
+oauth_url: https://api.infinn.in/NorenWeb/authorize/oauth
