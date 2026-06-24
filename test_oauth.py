@@ -1,63 +1,95 @@
 from api_helper import NorenApiPy
 import logging
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import os
+import sys
 import yaml
+import webbrowser
+import platform
 import subprocess
 
 
-#enable dbug to see request and responses
-logging.basicConfig(level=logging.DEBUG)
-
-#start of our program
-api = NorenApiPy()
-
-# Load existing YAML data
-with open('cred.yml', 'r') as f:
-    cred = yaml.load(f, Loader=yaml.FullLoader) or {}
-
-#credentials
-apikey_url = api.getOAuthURL(cred['oauth_url'],cred['client_id'])
-logging.info(apikey_url)
-
-subprocess.Popen(
-    [
-        "google-chrome",
-        "--disable-crash-reporter",
-        "--no-default-browser-check",
-        "--no-first-run",
-        "--disable-logging",
-        apikey_url,
-    ],
-    stdout=subprocess.DEVNULL,   # hide stdout
-    stderr=subprocess.DEVNULL    # hide Chrome's internal error logs
+sys.path.append(
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
 )
 
-# Redirect the user to the login url saved in apikey_url varibale obtained from api.getOAuthURL function
-# Receive the authentication code and from the redirect url after the login.
-# Once you have the authentication code, obtain the access_token using the api.getAccessToken function as follows.
+logging.basicConfig(level=logging.INFO)
 
-auth_code = "your_auth_code_here"
-if auth_code == "your_auth_code_here":
-    auth_code = input("Enter your auth code here: ")
+api = NorenApiPy()
 
-result = api.getAccessToken(auth_code, cred['Secret_Code'], cred['client_id'], cred['UID'])
+
+def open_browser(url):
+    system = platform.system()
+
+    try:
+        if system == "Windows":
+            webbrowser.open(url)
+
+        elif system == "Darwin":  # macOS
+            subprocess.Popen(["open", url])
+
+        elif system == "Linux":
+            try:
+                subprocess.Popen(["google-chrome", url])
+            except FileNotFoundError:
+                try:
+                    subprocess.Popen(["chromium-browser", url])
+                except FileNotFoundError:
+                    subprocess.Popen(["xdg-open", url])
+
+        else:
+            webbrowser.open(url)
+
+        print("\nBrowser opened successfully.")
+
+    except Exception as e:
+        print("\nCould not open browser automatically.")
+        print("Open this URL manually:")
+        print(url)
+        print("Error:", e)
+
+
+with open("cred.yml", "r") as f:
+    cred = yaml.load(f, Loader=yaml.FullLoader) or {}
+
+apikey_url = api.getOAuthURL(
+    cred["oauth_url"],
+    cred["client_id"]
+)
+
+print("\nOAuth URL:")
+print(apikey_url)
+
+open_browser(apikey_url)
+
+print("\nAfter login, copy auth_code from the redirect URL.")
+
+auth_code = input("Enter your auth code here: ").strip()
+
+result = api.getAccessToken(
+    auth_code,
+    cred["Secret_Code"],
+    cred["client_id"],
+    cred["UID"]
+)
+
 if result is not None:
     acc_tok, usrid, ref_tok, actid = result
-    logging.info(f"""\nAccess token is : {acc_tok} \nRefresh token is : {ref_tok} \nUser ID token is : {usrid} \nAccount ID is : {actid} \n""")
-    # Update values
-    cred['Access_token'] = acc_tok
-    cred['Account_ID'] = actid
+
+    print("\nLogin successful.")
+    print("User ID:", usrid)
+    print("Account ID:", actid)
+
+    cred["Access_token"] = acc_tok
+    cred["Account_ID"] = actid
+
+    with open("cred.yml", "w") as f:
+        yaml.dump(cred, f)
+
+    print("\nAccess token saved to cred.yml")
+
 else:
-    print("Failed to retrieve access token.")
-
-# Log the updated credentials (optional)
-logging.info(cred)
-
-# Write the updated data back to the YAML file
-with open('cred.yml', 'w') as f:
-    yaml.dump(cred, f)
-
-#make the api call
-watchlistname = api.get_watch_list_names()
-logging.info(f'watchlistname : {watchlistname}')
+    print("\nFailed to retrieve access token.")
